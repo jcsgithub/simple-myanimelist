@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useFetch from "./api/useFetch";
-import AnimeCard, { AnimeCardProps } from "./components/AnimeCard";
+import AnimeList from "./components/AnimeList";
 
 const generateUrl = (type: string, subtype: string) => {
   if (!subtype) {
@@ -18,19 +18,6 @@ const App: React.FC = () => {
   const url = generateUrl(type, subtype);
   const { data, loading, setLoading } = useFetch(url, "top");
 
-  const animeList = data.map((anime: AnimeCardProps) => {
-    return (
-      <AnimeCard
-        key={anime.mal_id}
-        mal_id={anime.mal_id}
-        title={anime.title}
-        image_url={anime.image_url}
-        type={anime.type}
-        start_date={anime.start_date}
-      />
-    );
-  });
-
   return (
     <div className="container">
       <h1>Personal Anime List</h1>
@@ -45,7 +32,7 @@ const App: React.FC = () => {
           }}
           disabled={loading}
           name="type"
-          defaultValue={type}
+          value={type}
           id="type"
         >
           <option value="anime">Anime</option>
@@ -60,7 +47,7 @@ const App: React.FC = () => {
           disabled={loading}
           className={type === "manga" ? "hidden" : ""}
           name="subtype"
-          defaultValue={subtype}
+          value={subtype}
           id="subtype"
         >
           <option value="">Select one...</option>
@@ -80,11 +67,7 @@ const App: React.FC = () => {
         </select>
       </div>
 
-      {loading ? (
-        <p className="loader">Loading...</p>
-      ) : (
-        <div className="anime-card-container">{animeList}</div>
-      )}
+      <AnimeList data={data} loading={loading} />
     </div>
   );
 };
