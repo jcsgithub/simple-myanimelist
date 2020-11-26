@@ -52,6 +52,13 @@ h1 {
   color: #fff;
 }
 
+.loader {
+  letter-spacing: 5px;
+  margin: 50px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .anime-card-container {
   display: flex;
   flex-wrap: wrap;

@@ -25,7 +25,19 @@ const App: React.FC = () => {
     url = `https://api.jikan.moe/v3/top/anime/1/${subtype}`;
   }
 
-  const { data, loading } = useFetch(url, "top");
+  const { data, loading, setLoading } = useFetch(url, "top");
+  const animeList = data.map((anime: AnimeListItemProps) => {
+    return (
+      <AnimeCard
+        key={anime.mal_id}
+        mal_id={anime.mal_id}
+        title={anime.title}
+        image_url={anime.image_url}
+        type={anime.type}
+        start_date={anime.start_date}
+      />
+    );
+  });
 
   return (
     <div className="container">
@@ -35,10 +47,11 @@ const App: React.FC = () => {
         <span>Filter by: </span>
         <select
           onChange={(e) => {
+            setLoading(true);
             setType(e.target.value);
             setSubtype("");
-            console.log("type", type);
-            console.log("subtype", subtype);
+            // console.log("type", type);
+            // console.log("subtype", subtype);
           }}
           disabled={loading}
           name="type"
@@ -51,6 +64,7 @@ const App: React.FC = () => {
 
         <select
           onChange={(e) => {
+            setLoading(true);
             setSubtype(e.target.value);
           }}
           disabled={loading}
@@ -76,26 +90,11 @@ const App: React.FC = () => {
         </select>
       </div>
 
-      <div className="anime-card-container">
-        {loading ? (
-          <div>
-            <p>LOADING...</p>
-          </div>
-        ) : (
-          data.map((anime: AnimeListItemProps) => {
-            return (
-              <AnimeCard
-                key={anime.mal_id}
-                mal_id={anime.mal_id}
-                title={anime.title}
-                image_url={anime.image_url}
-                type={anime.type}
-                start_date={anime.start_date}
-              />
-            );
-          })
-        )}
-      </div>
+      {loading ? (
+        <p className="loader">Loading...</p>
+      ) : (
+        <div className="anime-card-container">{animeList}</div>
+      )}
     </div>
   );
 };

@@ -17,7 +17,7 @@ export const useFetch = (url: string, type: string) => {
     fetchData();
   }, [url, type]);
 
-  return { data, loading };
+  return { data, loading, setLoading };
 };
 
 export default useFetch;
