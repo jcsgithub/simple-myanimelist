@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import useFetch from "./api/useFetch";
-import AnimeCard from "./components/AnimeCard";
+import AnimeCard, { AnimeCardProps } from "./components/AnimeCard";
 
-interface AnimeListItemProps {
-  mal_id: number;
-  title: string;
-  image_url: string;
-  type: string;
-  start_date: string;
-}
+const generateUrl = (type: string, subtype: string) => {
+  if (!subtype) {
+    return type === "anime"
+      ? "https://api.jikan.moe/v3/top/anime"
+      : "https://api.jikan.moe/v3/top/manga";
+  }
+  return `https://api.jikan.moe/v3/top/anime/1/${subtype}`;
+};
 
 const App: React.FC = () => {
   const [type, setType] = useState<string>("anime");
   const [subtype, setSubtype] = useState<string>("");
 
-  let url = "";
-
-  if (!subtype) {
-    url =
-      type === "anime"
-        ? "https://api.jikan.moe/v3/top/anime"
-        : "https://api.jikan.moe/v3/top/manga";
-  } else {
-    url = `https://api.jikan.moe/v3/top/anime/1/${subtype}`;
-  }
-
+  const url = generateUrl(type, subtype);
   const { data, loading, setLoading } = useFetch(url, "top");
-  const animeList = data.map((anime: AnimeListItemProps) => {
+
+  const animeList = data.map((anime: AnimeCardProps) => {
     return (
       <AnimeCard
         key={anime.mal_id}
@@ -41,7 +33,7 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Simple MyAnimeList</h1>
+      <h1>Personal Anime List</h1>
 
       <div className="top-container">
         <span>Filter by: </span>
@@ -50,8 +42,6 @@ const App: React.FC = () => {
             setLoading(true);
             setType(e.target.value);
             setSubtype("");
-            // console.log("type", type);
-            // console.log("subtype", subtype);
           }}
           disabled={loading}
           name="type"

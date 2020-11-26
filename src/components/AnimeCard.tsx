@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Props {
+export interface AnimeCardProps {
   mal_id: number;
   title: string;
   image_url: string;
@@ -8,7 +8,7 @@ interface Props {
   start_date: string;
 }
 
-export const AnimeCard: React.FC<Props> = ({
+export const AnimeCard: React.FC<AnimeCardProps> = ({
   mal_id,
   title,
   image_url,
