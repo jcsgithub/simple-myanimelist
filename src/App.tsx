@@ -2,13 +2,13 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Anime from "./components/Anime";
 import AnimeList from "./components/AnimeList";
+import Navigation from "./components/Navigation";
 
 const App: React.FC = () => {
   return (
     <div className="container">
-      <h1>Simple MyAnimeList</h1>
-
       <BrowserRouter>
+        <Navigation />
         <Switch>
           <Route path="/" exact component={AnimeList} />
           <Route path="/anime/:mal_id" exact component={Anime} />

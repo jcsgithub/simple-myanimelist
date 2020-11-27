@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimeCardProps } from "../components/AnimeList";
 
-export const useFetch = (url: string, type: string) => {
+export const useFetch = (url: string, type?: string) => {
   const [data, setData] = useState<AnimeCardProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -9,7 +9,7 @@ export const useFetch = (url: string, type: string) => {
     async function fetchData() {
       const response = await fetch(url);
       const data = await response.json();
-      const item = data[type];
+      const item = type ? data[type] : data;
       setData(item);
       setLoading(false);
       console.log(item);

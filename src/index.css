@@ -20,9 +20,8 @@ a {
 }
 
 h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 1.8em;
+  transition: 0.3s ease-in-out;
 }
 
 .hidden {
@@ -33,6 +32,30 @@ h1 {
 .top-container {
   max-width: 1200px;
   margin: 20px auto;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  margin-bottom: 50px;
+  padding: 0 20px 20px;
+}
+
+nav a {
+  border-bottom: 2px solid transparent;
+  display: inline-block;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-left: 20px;
+  text-transform: uppercase;
+  transition: 0.3s ease-in-out;
+  padding-bottom: 2px;
+}
+
+nav a:hover {
+  border-color: #fff;
 }
 
 .top-container {
@@ -171,6 +194,10 @@ h1 {
 }
 
 @media (max-width: 576px) {
+  h1 {
+    font-size: 1.2em;
+  }
+
   .anime-card {
     flex: 0 0 50%;
   }
