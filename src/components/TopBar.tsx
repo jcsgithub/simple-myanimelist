@@ -16,6 +16,9 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
   return (
     <div className="top-container">
       <div className="filter-container">
+        <span>Search: </span>
+        <input type="text" placeholder="Search anime ..." />
+
         <span>Filter by: </span>
         <select
           onChange={(e) => {
@@ -49,7 +52,9 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
           <option value="upcoming">Upcoming</option>
           <option value="movie">Movie</option>
         </select>
+      </div>
 
+      <div className="sort-container">
         <span className="label-sort">Sort by: </span>
         <select
           name="sort"
@@ -64,11 +69,6 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
           <option value="rank">Popularity</option>
           <option value="title">Title</option>
         </select>
-      </div>
-
-      <div className="search-container">
-        <span>Search: </span>
-        <input type="text" placeholder="Search anime ..." />
       </div>
     </div>
   );

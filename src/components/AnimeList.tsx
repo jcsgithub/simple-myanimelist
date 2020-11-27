@@ -11,10 +11,13 @@ export interface AnimeCardProps {
   rank: number;
 }
 
-const animeCard: React.FC<AnimeCardProps> = (anime: AnimeCardProps) => {
+const animeCard: React.FC<AnimeCardProps> = (
+  anime: AnimeCardProps,
+  type: string
+) => {
   return (
     <div key={anime.mal_id} className="anime-card">
-      <a href={"/anime/" + anime.mal_id}>
+      <a href={`/${type}/${anime.mal_id}`}>
         <img className="thumbnail" src={anime.image_url} alt={anime.title} />
         <div className="anime-card-content">
           <h3 className="title">{anime.title}</h3>
@@ -67,7 +70,7 @@ export const AnimeList: React.FC = () => {
 
       <div className="anime-card-container">
         {data.map((anime: AnimeCardProps) => {
-          return animeCard(anime);
+          return animeCard(anime, type);
         })}
       </div>
     </div>

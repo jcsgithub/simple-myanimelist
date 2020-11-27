@@ -2,10 +2,12 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import useFetch from "../api/useFetch";
 
-interface Props extends RouteComponentProps<{ mal_id: string }> {}
+interface Props extends RouteComponentProps<{ mal_id: string; type: string }> {}
 
 export const Anime: React.FC<Props> = ({ match }) => {
-  const url = `https://api.jikan.moe/v3/anime/${match.params.mal_id}`;
+  const id = match.params.mal_id;
+  const type = match.params.type;
+  const url = `https://api.jikan.moe/v3/${type}/${id}`;
   const { data, loading, setLoading } = useFetch(url);
 
   return loading ? (
@@ -26,6 +28,11 @@ export const Anime: React.FC<Props> = ({ match }) => {
         <h1>{data.title}</h1>
         <h3>SYNOPSIS</h3>
         <p>{data.synopsis}</p>
+        {data.trailer_url ? (
+          <iframe src={data.trailer_url} title={data.title}></iframe>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

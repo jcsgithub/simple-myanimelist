@@ -11,7 +11,7 @@ const App: React.FC = () => {
         <Navigation />
         <Switch>
           <Route path="/" exact component={AnimeList} />
-          <Route path="/anime/:mal_id" exact component={Anime} />
+          <Route path="/:type/:mal_id" exact component={Anime} />
           <Route path="/" render={() => <div>Page not found.</div>} />
         </Switch>
       </BrowserRouter>
