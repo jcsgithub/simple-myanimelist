@@ -36,6 +36,7 @@ h1 {
 
 .nav-container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #333;
@@ -60,6 +61,7 @@ nav a:hover {
 
 .top-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 20px;
 }
@@ -121,6 +123,7 @@ nav a:hover {
 
 .anime-card-content {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -150,6 +153,7 @@ nav a:hover {
 
 .anime-card-content button {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
@@ -169,6 +173,54 @@ nav a:hover {
 
 .anime-card-content button:hover {
   transform: translateY(-3px);
+}
+
+.anime-container {
+  display: flex;
+  max-width: 1200px;
+  margin: 20px 0px;
+}
+
+.anime-container > * {
+  margin: 15px;
+}
+
+.anime-container .left img {
+  margin-bottom: 20px;
+}
+
+.anime-container .left p {
+  margin-bottom: 5px;
+}
+
+.anime-container .right button {
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 700;
+  background: none;
+  margin-bottom: 15px;
+  outline: none;
+  width: 160px;
+  height: 40px;
+  cursor: pointer;
+  color: #e9e9e9;
+  border: 2px solid #e9e9e9;
+  border-radius: 12px;
+  transition: 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.anime-container .right button:hover {
+  background: #fff;
+  color: #111;
+}
+
+.anime-container .right h1 {
+  margin-bottom: 15px;
+}
+
+.anime-container .right h3 {
+  margin-bottom: 10px;
 }
 
 @media (max-width: 1100px) {
@@ -191,10 +243,15 @@ nav a:hover {
   .anime-card {
     flex: 0 0 33.333%;
   }
+
+  .anime-container {
+    display: block;
+    text-align: center;
+  }
 }
 
 @media (max-width: 576px) {
-  h1 {
+  h1.logo {
     font-size: 1.2em;
   }
 

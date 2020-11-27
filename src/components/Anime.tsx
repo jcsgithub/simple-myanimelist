@@ -11,9 +11,22 @@ export const Anime: React.FC<Props> = ({ match }) => {
   return loading ? (
     <p className="loader">Loading...</p>
   ) : (
-    <div className="container">
-      <p>Inside Anime ID: {match.params.mal_id}</p>
-      <code>{JSON.stringify(data)}</code>
+    <div className="anime-container">
+      <div className="left">
+        <img className="thumbnail" src={data.image_url} alt={data.title} />
+        <p>
+          <strong>TYPE:</strong> {data.type}
+        </p>
+        <p>
+          <strong>STATUS:</strong> {data.status}
+        </p>
+      </div>
+      <div className="right">
+        <button>Add to List</button>
+        <h1>{data.title}</h1>
+        <h3>SYNOPSIS</h3>
+        <p>{data.synopsis}</p>
+      </div>
     </div>
   );
 };
