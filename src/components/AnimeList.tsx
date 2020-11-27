@@ -11,10 +11,15 @@ export interface AnimeCardProps {
   rank: number;
 }
 
-const animeCard: React.FC<AnimeCardProps> = (
-  anime: AnimeCardProps,
-  type: string
-) => {
+const animeCard = (anime: AnimeCardProps, type: string, isSearch: boolean) => {
+  let start_date = anime.start_date;
+  if (isSearch) {
+    // Fix date since search and normal query has different values for this
+    const temp_date = new Date(start_date);
+    const month = temp_date.toLocaleString("default", { month: "short" });
+    start_date = `${month} ${temp_date.getFullYear()}`;
+  }
+
   return (
     <div key={anime.mal_id} className="anime-card">
       <a href={`/${type}/${anime.mal_id}`}>
@@ -25,7 +30,7 @@ const animeCard: React.FC<AnimeCardProps> = (
           <h4 className="meta">
             {anime.type}
             <br />
-            {anime.start_date}
+            {start_date}
           </h4>
         </div>
       </a>
@@ -33,34 +38,45 @@ const animeCard: React.FC<AnimeCardProps> = (
   );
 };
 
-const generateUrl = (type: string, subtype: string) => {
-  if (!subtype) {
-    return type === "anime"
-      ? "https://api.jikan.moe/v3/top/anime"
-      : "https://api.jikan.moe/v3/top/manga";
+const generateUrl = (search: string, type: string, subtype: string) => {
+  if (search) {
+    return `https://api.jikan.moe/v3/search/${type}?q=${search}`;
   }
-  return `https://api.jikan.moe/v3/top/anime/1/${subtype}`;
+
+  if (subtype) {
+    return `https://api.jikan.moe/v3/top/anime/1/${subtype}`;
+  }
+
+  return `https://api.jikan.moe/v3/top/${type}`;
 };
 
 export const AnimeList: React.FC = () => {
+  const [search, setSearch] = useState<string>("");
   const [type, setType] = useState<string>("anime");
   const [subtype, setSubtype] = useState<string>("");
   const [sort, setSort] = useState<string>("rank");
 
   console.log("rendering..");
+  const isSearch = search ? true : false;
+  const queryType = isSearch ? "results" : "top";
 
-  const url = generateUrl(type, subtype);
-  const { data, loading, setLoading, setData } = useFetch(url, sort, "top");
+  const url = generateUrl(search, type, subtype);
+  const { data, loading, setLoading, setData } = useFetch(
+    url,
+    isSearch,
+    sort,
+    queryType
+  );
 
-  return loading ? (
-    <p className="loader">Loading...</p>
-  ) : (
+  return (
     <div>
       <TopBar
+        search={search}
         type={type}
         subtype={subtype}
         sort={sort}
         loading={loading}
+        setSearch={setSearch}
         setType={setType}
         setSubtype={setSubtype}
         setSort={setSort}
@@ -68,11 +84,35 @@ export const AnimeList: React.FC = () => {
         // sortData={sortData}
       />
 
-      <div className="anime-card-container">
-        {data.map((anime: AnimeCardProps) => {
-          return animeCard(anime, type);
-        })}
-      </div>
+      {loading ? (
+        <p className="loader">Loading...</p>
+      ) : (
+        <div className="anime-card-container">
+          {data.map((anime: AnimeCardProps) => {
+            return animeCard(anime, type, isSearch);
+            // return (
+            //   <div key={anime.mal_id} className="anime-card">
+            //     <a href={`/${type}/${anime.mal_id}`}>
+            //       <img
+            //         className="thumbnail"
+            //         src={anime.image_url}
+            //         alt={anime.title}
+            //       />
+            //       <div className="anime-card-content">
+            //         <h3 className="title">{anime.title}</h3>
+            //         <button>Details</button>
+            //         <h4 className="meta">
+            //           {anime.type}
+            //           <br />
+            //           {anime.start_date}
+            //         </h4>
+            //       </div>
+            //     </a>
+            //   </div>
+            // );
+          })}
+        </div>
+      )}
     </div>
   );
 };

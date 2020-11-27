@@ -1,10 +1,12 @@
 import React from "react";
 
 interface TopBarProps {
+  search: string;
   type: string;
   subtype: string;
   sort: string;
   loading: boolean;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
   setType: React.Dispatch<React.SetStateAction<string>>;
   setSubtype: React.Dispatch<React.SetStateAction<string>>;
   setSort: React.Dispatch<React.SetStateAction<string>>;
@@ -17,7 +19,19 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
     <div className="top-container">
       <div className="filter-container">
         <span>Search: </span>
-        <input type="text" placeholder="Search anime ..." />
+        <input
+          onKeyUp={(e) => {
+            const search = e.currentTarget.value;
+            if (e.key === "Enter" && search.length >= 3) {
+              app.setLoading(true);
+              app.setSearch(search);
+            }
+          }}
+          name="search"
+          id="search"
+          type="text"
+          placeholder="Search anime ..."
+        />
 
         <span>Filter by: </span>
         <select
