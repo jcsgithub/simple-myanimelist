@@ -23,48 +23,55 @@ const App: React.FC = () => {
       <h1>Personal Anime List</h1>
 
       <div className="top-container">
-        <span>Filter by: </span>
-        <select
-          onChange={(e) => {
-            setLoading(true);
-            setType(e.target.value);
-            setSubtype("");
-          }}
-          disabled={loading}
-          name="type"
-          value={type}
-          id="type"
-        >
-          <option value="anime">Anime</option>
-          <option value="manga">Manga</option>
-        </select>
+        <div className="search-container">
+          <span>Search: </span>
+          <input type="text" placeholder="Search anime ..." />
+        </div>
 
-        <select
-          onChange={(e) => {
-            setLoading(true);
-            setSubtype(e.target.value);
-          }}
-          disabled={loading}
-          className={type === "manga" ? "hidden" : ""}
-          name="subtype"
-          value={subtype}
-          id="subtype"
-        >
-          <option value="">Select one...</option>
-          <option value="airing">Airing</option>
-          <option value="upcoming">Upcoming</option>
-          <option value="movie">Movie</option>
-        </select>
-      </div>
+        <div className="filter-container">
+          <span>Filter by: </span>
+          <select
+            onChange={(e) => {
+              setLoading(true);
+              setType(e.target.value);
+              setSubtype("");
+            }}
+            disabled={loading}
+            name="type"
+            value={type}
+            id="type"
+          >
+            <option value="anime">Anime</option>
+            <option value="manga">Manga</option>
+          </select>
 
-      <div className="top-container">
-        <span>Sort by: </span>
-        <select name="sort" defaultValue="" id="sort">
-          <option value="">Select one...</option>
-          <option value="airing">Popularity</option>
-          <option value="upcoming">Name</option>
-          <option value="movie">Aired date</option>
-        </select>
+          <select
+            onChange={(e) => {
+              setLoading(true);
+              setSubtype(e.target.value);
+            }}
+            disabled={loading}
+            className={type === "manga" ? "hidden" : ""}
+            name="subtype"
+            value={subtype}
+            id="subtype"
+          >
+            <option value="">Select one...</option>
+            <option value="airing">Airing</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="movie">Movie</option>
+          </select>
+        </div>
+
+        <div className="sort-container">
+          <span>Sort by: </span>
+          <select name="sort" defaultValue="" id="sort">
+            <option value="">Select one...</option>
+            <option value="airing">Popularity</option>
+            <option value="upcoming">Name</option>
+            <option value="movie">Aired date</option>
+          </select>
+        </div>
       </div>
 
       <AnimeList data={data} loading={loading} />
