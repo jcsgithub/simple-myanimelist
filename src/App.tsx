@@ -20,7 +20,7 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Personal Anime List</h1>
+      <h1>Simple MyAnimeList</h1>
 
       <div className="top-container">
         <div className="search-container">
