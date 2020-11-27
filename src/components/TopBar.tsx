@@ -46,7 +46,7 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
           <option value="movie">Movie</option>
         </select>
 
-        <span>Sort by: </span>
+        <span className="label-sort">Sort by: </span>
         <select name="sort" defaultValue="" id="sort">
           <option value="">Select one...</option>
           <option value="airing">Popularity</option>

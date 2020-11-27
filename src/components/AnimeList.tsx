@@ -1,9 +1,6 @@
-import React from "react";
-
-interface AppState {
-  data: Array<AnimeCardProps>;
-  loading: boolean;
-}
+import React, { useState } from "react";
+import useFetch from "../api/useFetch";
+import TopBar from "./TopBar";
 
 export interface AnimeCardProps {
   mal_id: number;
@@ -32,14 +29,40 @@ const animeCard: React.FC<AnimeCardProps> = (anime: AnimeCardProps) => {
   );
 };
 
-export const AnimeList: React.FC<AppState> = ({ data, loading }) => {
+const generateUrl = (type: string, subtype: string) => {
+  if (!subtype) {
+    return type === "anime"
+      ? "https://api.jikan.moe/v3/top/anime"
+      : "https://api.jikan.moe/v3/top/manga";
+  }
+  return `https://api.jikan.moe/v3/top/anime/1/${subtype}`;
+};
+
+export const AnimeList: React.FC = () => {
+  const [type, setType] = useState<string>("anime");
+  const [subtype, setSubtype] = useState<string>("");
+
+  const url = generateUrl(type, subtype);
+  const { data, loading, setLoading } = useFetch(url, "top");
+
   return loading ? (
     <p className="loader">Loading...</p>
   ) : (
-    <div className="anime-card-container">
-      {data.map((anime: AnimeCardProps) => {
-        return animeCard(anime);
-      })}
+    <div>
+      <TopBar
+        type={type}
+        subtype={subtype}
+        loading={loading}
+        setType={setType}
+        setSubtype={setSubtype}
+        setLoading={setLoading}
+      />
+
+      <div className="anime-card-container">
+        {data.map((anime: AnimeCardProps) => {
+          return animeCard(anime);
+        })}
+      </div>
     </div>
   );
 };
