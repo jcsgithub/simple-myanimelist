@@ -8,6 +8,7 @@ export interface AnimeCardProps {
   image_url: string;
   type: string;
   start_date: string;
+  rank: number;
 }
 
 const animeCard: React.FC<AnimeCardProps> = (anime: AnimeCardProps) => {
@@ -41,9 +42,12 @@ const generateUrl = (type: string, subtype: string) => {
 export const AnimeList: React.FC = () => {
   const [type, setType] = useState<string>("anime");
   const [subtype, setSubtype] = useState<string>("");
+  const [sort, setSort] = useState<string>("rank");
+
+  console.log("rendering..");
 
   const url = generateUrl(type, subtype);
-  const { data, loading, setLoading } = useFetch(url, "top");
+  const { data, loading, setLoading, setData } = useFetch(url, sort, "top");
 
   return loading ? (
     <p className="loader">Loading...</p>
@@ -52,10 +56,13 @@ export const AnimeList: React.FC = () => {
       <TopBar
         type={type}
         subtype={subtype}
+        sort={sort}
         loading={loading}
         setType={setType}
         setSubtype={setSubtype}
+        setSort={setSort}
         setLoading={setLoading}
+        // sortData={sortData}
       />
 
       <div className="anime-card-container">

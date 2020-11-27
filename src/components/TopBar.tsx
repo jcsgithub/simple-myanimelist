@@ -3,10 +3,13 @@ import React from "react";
 interface TopBarProps {
   type: string;
   subtype: string;
+  sort: string;
   loading: boolean;
   setType: React.Dispatch<React.SetStateAction<string>>;
   setSubtype: React.Dispatch<React.SetStateAction<string>>;
+  setSort: React.Dispatch<React.SetStateAction<string>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  // sortData: () => boolean;
 }
 
 export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
@@ -19,6 +22,7 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
             app.setLoading(true);
             app.setType(e.target.value);
             app.setSubtype("");
+            // app.setSort("rank");
           }}
           disabled={app.loading}
           name="type"
@@ -47,11 +51,18 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
         </select>
 
         <span className="label-sort">Sort by: </span>
-        <select name="sort" defaultValue="" id="sort">
-          <option value="">Select one...</option>
-          <option value="airing">Popularity</option>
-          <option value="upcoming">Name</option>
-          <option value="movie">Aired date</option>
+        <select
+          name="sort"
+          value={app.sort}
+          id="sort"
+          onChange={(e) => {
+            app.setLoading(true);
+            app.setSort(e.target.value);
+          }}
+          disabled={app.loading}
+        >
+          <option value="rank">Popularity</option>
+          <option value="title">Title</option>
         </select>
       </div>
 
