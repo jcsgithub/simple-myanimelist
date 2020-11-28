@@ -22,7 +22,7 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
         <input
           onKeyUp={(e) => {
             const search = e.currentTarget.value;
-            if (e.key === "Enter" && search.length >= 3) {
+            if (e.key === "Enter" && (search.length >= 3 || !search.length)) {
               app.setLoading(true);
               app.setSearch(search);
             }

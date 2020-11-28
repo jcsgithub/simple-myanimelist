@@ -24,7 +24,8 @@ export const Anime: React.FC<Props> = ({ match }) => {
         </p>
       </div>
       <div className="right">
-        <button>Add to List</button>
+        <button>Add to Watchlist</button>
+        <button>Add to Watched</button>
         <h1>{data.title}</h1>
         <h3>SYNOPSIS</h3>
         <p>{data.synopsis}</p>

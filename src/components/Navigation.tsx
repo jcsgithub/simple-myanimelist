@@ -9,7 +9,8 @@ export const Navigation = () => {
       </Link>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/myanimelist">My List</Link>
+        <Link to="/watchlist">Watchlist</Link>
+        <Link to="/watched">Watched</Link>
       </nav>
     </div>
   );
