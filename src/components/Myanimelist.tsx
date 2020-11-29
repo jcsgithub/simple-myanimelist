@@ -49,8 +49,8 @@ export const Watchlist: React.FC<Props> = () => {
             id="subtype"
           >
             <option value="">Select one...</option>
-            <option value="watched">Watched</option>
-            <option value="notwatched">Not watched</option>
+            <option value="watched">Watched/Read</option>
+            <option value="notwatched">Not yet watched/read</option>
           </select>
         </div>
 
