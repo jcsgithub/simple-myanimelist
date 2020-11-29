@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { AnimeCardProps } from "../components/AnimeList";
+import { AnimeCardProps } from "../components/AnimeCard";
 
 const sortData = (sort: string, data: any) => {
-  console.log("sorting data...");
   if (sort === "rank") {
     data.sort((a: AnimeCardProps, b: AnimeCardProps) =>
       a.rank > b.rank ? 1 : b.rank > a.rank ? -1 : 0
@@ -16,47 +15,56 @@ const sortData = (sort: string, data: any) => {
   return data;
 };
 
-export const useFetch = (
-  url: string,
-  isSearch?: boolean,
-  sort?: string,
-  type?: string
-) => {
-  // const [data, setData] = useState<AnimeCardProps[]>([]);
+export const useFetch = (url: string, body: any) => {
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log("fetching url ...", url);
-  console.log("isSearch", isSearch);
-  console.log("sort", sort);
-  console.log("type", type);
-
   useEffect(() => {
-    console.log("inside useEffect ");
-
     async function fetchData() {
-      console.log("inside useEffect fetchData");
+      let response;
+      let finalUrl = url;
 
-      const response = await fetch(url);
+      if (!body.isMyanimelist) {
+        response = await fetch(finalUrl);
+      } else {
+        if (body.type || body.subtype || body.sort) {
+          finalUrl = "http://localhost:9000/myanime/query";
+          const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          };
+          response = await fetch(finalUrl, requestOptions);
+        } else {
+          response = await fetch(finalUrl);
+        }
+      }
+
       const data = await response.json();
-      let item = type ? data[type] : data;
 
-      console.log("items", item);
+      let items = [];
+      if (!body.isMyanimelist) {
+        items = body.type ? data[body.type] : data;
+        items = body.sort ? sortData(body.sort, items) : items;
+      } else {
+        items = data;
+      }
 
-      // Sort data
-      item = sort ? sortData(sort, item) : item;
-      console.log("items sorted");
-
-      setData(item);
+      setData(items);
       setLoading(false);
-      // console.log(item);
     }
 
     fetchData();
-  }, [url, isSearch, sort, type]);
+  }, [
+    url,
+    body.isSearch,
+    body.isMyanimelist,
+    body.type,
+    body.subtype,
+    body.sort,
+  ]);
 
-  console.log("fetch done");
-  return { data, loading, setLoading, setData };
+  return { data, loading, setLoading };
 };
 
 export default useFetch;

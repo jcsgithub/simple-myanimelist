@@ -71,14 +71,14 @@ export const TopBar: React.FC<TopBarProps> = (app: TopBarProps) => {
       <div className="sort-container">
         <span className="label-sort">Sort by: </span>
         <select
-          name="sort"
-          value={app.sort}
-          id="sort"
           onChange={(e) => {
             app.setLoading(true);
             app.setSort(e.target.value);
           }}
           disabled={app.loading}
+          name="sort"
+          value={app.sort}
+          id="sort"
         >
           <option value="rank">Popularity</option>
           <option value="title">Title</option>
